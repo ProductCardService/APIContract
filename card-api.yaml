@@ -1,0 +1,250 @@
+openapi: 3.0.3
+info:
+  title: Swagger Product Card Service - OpenAPI 3.0
+  description: |-
+    This is Product Card Service based on the OpenAPI 3.0 specification.
+  version: 0.0.1
+tags:
+  - name: card
+    description: Everything about cards
+  - name: ai
+    description: Everything about AI and generation
+paths:
+  /cards:
+    post:
+      tags:
+        - card
+      summary: Creates new product card
+      description: Creates new product card
+      operationId: createCard
+      requestBody:
+        description: Creates new product card
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateCard'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'          
+        '400':
+          description: Invalid country_id
+        '422':
+          description: Validation exception
+    get:
+      tags:
+        - card
+      summary: Gets all cards
+      description: Gets all cards
+      operationId: getAllCards
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardList'
+  /cards/{card_id}:  
+    get:
+      tags:
+        - card
+      summary: Gets card
+      description: Gets card
+      operationId: getCard
+      parameters:
+        - name: card_id
+          in: path
+          description: ID of card to return
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'          
+        '404':
+          description: Not found card with this id
+        '422':
+          description: Validation exception
+    put:
+      tags:
+        - card
+      summary: Updates existing product card
+      description: Updates existing product card
+      operationId: updateCard
+      parameters:
+        - name: card_id
+          in: path
+          description: ID of card to update
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      requestBody:
+        description: Updates existing product card
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateCard'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'          
+        '400':
+          description: Not found card with this id
+        '422':
+          description: Validation exception
+    delete:
+      tags:
+        - card
+      summary: Removes existing card
+      description: Removes existing card by card_id
+      operationId: deleteCard
+      parameters:
+        - name: card_id
+          in: path
+          description: ID of card to removing
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Not found card with this id
+        '422':
+          description: Validation exception
+  /generate/description:
+    post:
+      tags:
+        - ai
+      summary: Generates description with AI
+      description: Generates description with AI
+      operationId: generateDescription
+      requestBody:
+        description: Generates description with AI
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prompt'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedDescription'
+        '422':
+          description: Validation exception
+  /generate/image:
+    post:
+      tags:
+        - ai
+      summary: Generates description with AI
+      description: Generates description with AI
+      operationId: generateImage
+      requestBody:
+        description: Generates description with AI
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prompt'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedImage'          
+        '422':
+          description: Validation exception
+components:
+  schemas:
+    CreateUpdateCard:
+      type: object
+      required:
+        - title
+        - description
+        - tags
+        - image
+      properties:
+        title:
+          type: string
+          example: Лапша с мясом
+        description:
+          type: string
+          example: Питательный продукт
+        tags:
+          type: array
+          items:
+            type: string
+            example: блюдо с мясом
+        image_base64:
+          type: string
+          example: encoded image in base64
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        title:
+          type: string
+          example: Лапша с мясом
+        description:
+          type: string
+          example: Питательный продукт
+        tags:
+          type: array
+          items:
+            type: string
+            example: блюдо с мясом
+    CardList:
+      type: object
+      properties:
+        cards:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Card' 
+    Prompt:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Питательный продукт
+    GeneratedDescription:
+      type: object
+      properties:
+        description:
+          type: string
+          example: Питательный продукт
+        tags:
+          type: array
+          items:
+            type: string
+            example: блюдо с мясом
+    GeneratedImage:
+      type: object
+      properties:
+        image_base64:
+          type: string
+          example: encoded image in base64
