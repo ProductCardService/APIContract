@@ -9,3 +9,9 @@
 ## Архитектура сервиса
 
 ## Контракт взаимодействия между фронтендом и бэкендом
+В контракте используются следующие теги:
+- card - соответствует API для сервиса карточек
+- ai - соответствует API для сервиса генерации контента
+
+Подробнее о контракте можно почитать в файле api.yaml или посмотреть в Swagger по 
+[ссылке](https://kortkamp.github.io/swagger-viewer/?host=https%3A%2F%2Fraw.githubusercontent.com%2FProductCardService%2FProductCardService%2Fmaster%2Fapi.yaml)
