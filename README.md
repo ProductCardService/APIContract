@@ -6,8 +6,46 @@
 - соглашение о контракте взаимодействия (API)
 - схема развертывания Docker Compose
 
-## Архитектура сервиса
+## Архитектура сервиса (C4 Containers)
+```mermaid
+graph LR
+    %% C4 style classes c4model.com %%
+    classDef person fill:#08427b,stroke:black,color:white;
+    classDef container fill:#1168bd,stroke:black,color:white;
+    classDef database fill:#1168bd,stroke:black,color:white;
+    classDef software fill:#1168bd,stroke:black,color:white;
+    classDef existing fill:#999999,stroke:black,color:white;
+    classDef boundary fill:white,stroke:black,stroke-width:2px,stroke-dasharray: 5 5;
+    classDef frame fill:white,stroke:black;
 
+
+    %% nodes %%
+    Person((Manager)):::person
+    WebApp("Web Application<br>[Container: React]"):::container
+    WebServer("Web Server<br>[Container: nginx]"):::container
+    CardService("Card Service<br>[Container: Java]"):::container
+    GenerationService("Generation Service<br>[Container: Python]"):::container
+    CardsDB[("Cards<br>[Container: PostgreSQL]")]:::database
+    ImageGenerationService["Kandinsky"]:::existing
+    TextGenerationService["ChatGPT"]:::existing
+
+    %% connections and boundaries %%
+    
+    subgraph Legend [Containers]
+        Person-.->|Uses| WebApp
+        subgraph Boundary["Boundary: System under development"]
+            WebApp-.->|"Makes requests <br> [HTTP/HTTPS]"| WebServer
+            WebServer-.->|"Forwards requests <br> [HTTP/HTTPS]"| CardService
+            WebServer-.->|"Forwards requests <br> [HTTP/HTTPS]"|GenerationService
+            CardService-.->|"Sends SQL"|CardsDB
+        end
+        class Boundary boundary
+        GenerationService-.->|"Makes requests <br> [HTTP/HTTPS]"| ImageGenerationService
+        GenerationService-.->|"Makes requests <br> [HTTP/HTTPS]"| TextGenerationService
+    end
+    class Legend frame
+
+```
 ## Контракт взаимодействия между фронтендом и бэкендом
 В контракте используются следующие теги:
 - card - соответствует API для сервиса карточек
