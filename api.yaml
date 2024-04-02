@@ -10,7 +10,7 @@ tags:
   - name: ai
     description: Everything about AI and generation
 paths:
-  /cards:
+  /card:
     post:
       tags:
         - card
@@ -218,6 +218,9 @@ components:
           items:
             type: string
             example: блюдо с мясом
+        image_base64:
+          type: string
+          example: encoded image in base64
     CardList:
       type: object
       properties:
