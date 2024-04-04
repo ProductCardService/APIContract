@@ -10,7 +10,7 @@ tags:
   - name: ai
     description: Everything about AI and generation
 paths:
-  /card:
+  /cards:
     post:
       tags:
         - card
@@ -130,38 +130,42 @@ paths:
           description: Not found card with this id
         '422':
           description: Validation exception
-  /generate/description:
-    post:
+  /cards/{card_id}/image:  
+    get:
       tags:
-        - ai
-      summary: Generates description with AI
-      description: Generates description with AI
-      operationId: generateDescription
-      requestBody:
-        description: Generates description with AI
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Prompt'
-        required: true
+        - card
+      summary: Gets image for card
+      description: Gets image for card
+      operationId: getCardImage
+      parameters:
+        - name: card_id
+          in: path
+          description: ID of card to return
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneratedDescription'
+                $ref: '#/components/schemas/CardImage'          
+        '404':
+          description: Not found card with this id
         '422':
           description: Validation exception
-  /generate/image:
+  /generate/descriptions:
     post:
       tags:
         - ai
-      summary: Generates description with AI
-      description: Generates description with AI
-      operationId: generateImage
+      summary: Generates 4 descriptions of product with AI
+      description:  Generates 4 descriptions of product with AI
+      operationId: generateDescriptions
       requestBody:
-        description: Generates description with AI
+        description: Generates 4 descriptions of product with AI
         content:
           application/json:
             schema:
@@ -173,7 +177,53 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GeneratedImage'          
+                $ref: '#/components/schemas/GeneratedDescriptions'
+        '422':
+          description: Validation exception
+  /generate/tags:
+    post:
+      tags:
+        - ai
+      summary: Generates tags for product with AI
+      description: Generates tags for product with AI
+      operationId: generateTags
+      requestBody:
+        description: Generates tags for product with AI
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prompt'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedTags'          
+        '422':
+          description: Validation exception
+  /generate/images:
+    post:
+      tags:
+        - ai
+      summary: Generates 4 images of product with AI
+      description: Generates 4 images of product with AI
+      operationId: generateImages
+      requestBody:
+        description: Generates 4 images of product with AI
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prompt'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedImages'          
         '422':
           description: Validation exception
 components:
@@ -191,15 +241,15 @@ components:
           example: Лапша с мясом
         description:
           type: string
-          example: Питательный продукт
+          example: Борщ — заправочный многокомпонентный суп и является технологически сложным в приготовлении блюдом.
         tags:
           type: array
           items:
             type: string
             example: блюдо с мясом
-        image_base64:
+        image:
           type: string
-          example: encoded image in base64
+          example: data:image/png;base64,<encoded-image>
     Card:
       type: object
       properties:
@@ -212,7 +262,7 @@ components:
           example: Лапша с мясом
         description:
           type: string
-          example: Питательный продукт
+          example: Борщ — заправочный многокомпонентный суп и является технологически сложным в приготовлении блюдом.
         tags:
           type: array
           items:
@@ -224,27 +274,40 @@ components:
         cards:
           type: array
           items: 
-            $ref: '#/components/schemas/Card' 
+            $ref: '#/components/schemas/Card'
+    CardImage:
+      type: object
+      properties:
+        image:
+          type: string
+          example: data:image/png;base64,<encoded-image>
     Prompt:
       type: object
       properties:
         title:
           type: string
-          example: Питательный продукт
-    GeneratedDescription:
+          example: Лапша с мясом
+    GeneratedDescriptions:
       type: object
       properties:
-        description:
-          type: string
-          example: Питательный продукт
+        descriptions:
+          type: array
+          items:
+            type: string
+            example: Борщ — заправочный многокомпонентный суп и является технологически сложным в приготовлении блюдом.
+    GeneratedTags:
+      type: object
+      properties:
         tags:
           type: array
           items:
             type: string
             example: блюдо с мясом
-    GeneratedImage:
+    GeneratedImages:
       type: object
       properties:
-        image_base64:
-          type: string
-          example: encoded image in base64
+        images:
+          type: array
+          items:
+              type: string
+              example: data:image/png;base64,<encoded-image>
