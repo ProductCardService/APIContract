@@ -1,0 +1,14 @@
+services:
+  web:
+    image: product-card-service/web:latest
+    container_name: web
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - product_cars_service_net
+
+networks:
+  product_cars_service_net:
