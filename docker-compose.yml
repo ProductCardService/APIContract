@@ -22,12 +22,17 @@ services:
       interval: 20s
       timeout: 5s
       retries: 10
+    networks:
+      - product_cars_service_net
   card-service:
     image: product-card-service/card-service:latest
     depends_on:
       - postgres
+      - web
     ports:
-      - "8001:8080"
+      - "8080:8080"
+    networks:
+      - product_cars_service_net
 
 networks:
   product_cars_service_net:
