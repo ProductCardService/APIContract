@@ -53,3 +53,16 @@ graph LR
 
 Подробнее о контракте можно почитать в файле api.yaml или посмотреть в Swagger по 
 [ссылке](https://kortkamp.github.io/swagger-viewer/?host=https%3A%2F%2Fraw.githubusercontent.com%2FProductCardService%2FProductCardService%2Fmaster%2Fapi.yaml)
+
+## Команды для запуска
+Собрать все Docker Image
+```bash
+docker build -t product-card-service/web:latest .
+docker build -t product-card-service/card-service:latest .
+docker build -t product-card-service/ai-service:latest .
+```
+Запустить всё одной командой
+```bash
+docker compose up
+```
+
