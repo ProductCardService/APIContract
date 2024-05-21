@@ -5,6 +5,9 @@ services:
     restart: always
     ports:
       - "80:80"
+    depends_on:
+      - card-service
+      - ai-service
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
@@ -28,11 +31,18 @@ services:
     image: product-card-service/card-service:latest
     depends_on:
       - postgres
-      - web
     ports:
       - "8080:8080"
     networks:
       - product_cars_service_net
+  ai-service:
+    image: product-card-service/ai-service:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - product_cars_service_net
+    env_file:
+      - .env
 
 networks:
   product_cars_service_net:
