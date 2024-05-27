@@ -27,7 +27,7 @@ graph LR
     GenerationService("Generation Service<br>[Container: Python]"):::container
     CardsDB[("Cards<br>[Container: PostgreSQL]")]:::database
     ImageGenerationService["Kandinsky"]:::existing
-    TextGenerationService["ChatGPT"]:::existing
+    TextGenerationService["GigaChat"]:::existing
 
     %% connections and boundaries %%
     
