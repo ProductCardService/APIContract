@@ -47,7 +47,7 @@ services:
       - .env
 
 volumes:  
-	cards-data:
+  cards-data:
 
 networks:
   product_cars_service_net:
