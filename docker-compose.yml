@@ -20,6 +20,8 @@ services:
       POSTGRES_PASSWORD: "password"
     ports:
       - "5433:5432"
+    volumes:        
+			- cards-data:/var/lib/postgresql/data    
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
       interval: 20s
@@ -43,6 +45,9 @@ services:
       - product_cars_service_net
     env_file:
       - .env
+
+volumes:  
+	cards-data:
 
 networks:
   product_cars_service_net:
