@@ -54,6 +54,11 @@ graph LR
 Подробнее о контракте можно почитать в файле api.yaml или посмотреть в Swagger по 
 [ссылке](https://kortkamp.github.io/swagger-viewer/?host=https%3A%2F%2Fraw.githubusercontent.com%2FProductCardService%2FProductCardService%2Fmaster%2Fapi.yaml)
 
+## Демонстрация приложения
+![image](https://github.com/ProductCardService/ProductCardService/assets/80649413/ff72cf48-fbb8-4bee-8e10-78833664c7d8)
+![image](https://github.com/ProductCardService/ProductCardService/assets/80649413/bb2a8f16-6edc-4fca-9b02-62c4078a33b0)
+
+
 ## Команды для запуска
 Собрать все Docker Image
 ```bash
